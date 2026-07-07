@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Interactive Sales Data Analysis Dashboard — track sales performance, profit trends, regional growth, and top products with real-time filtering." />
+  <title>SalesIQ — Business Intelligence Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<div class="app-wrapper">
+
+  <!-- ══════════════════════════════════════
+       SIDEBAR
+  ══════════════════════════════════════ -->
+  <aside class="sidebar" role="navigation" aria-label="Dashboard navigation">
+
+    <!-- Logo -->
+    <div class="sidebar-logo">
+      <div class="logo-icon">📊</div>
+      <div class="logo-text">
+        <h1>SalesIQ</h1>
+        <p>Business Intelligence</p>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+      <p class="nav-section-label">Analytics</p>
+      <div class="nav-item active" id="nav-overview">
+        <span class="nav-icon">🏠</span> Overview
+      </div>
+      <div class="nav-item" id="nav-products">
+        <span class="nav-icon">📦</span> Products
+      </div>
+      <div class="nav-item" id="nav-regions">
+        <span class="nav-icon">🗺️</span> Regions
+      </div>
+      <div class="nav-item" id="nav-trends">
+        <span class="nav-icon">📈</span> Trends
+      </div>
+
+      <p class="nav-section-label" style="margin-top:20px">Reports</p>
+      <div class="nav-item" id="nav-profit">
+        <span class="nav-icon">💰</span> Profit Analysis
+      </div>
+      <div class="nav-item" id="nav-export">
+        <span class="nav-icon">⬇️</span> Export Data
+      </div>
+    </nav>
+
+    <!-- Filters -->
+    <div class="filters-section">
+      <p class="nav-section-label">Filters</p>
+
+      <div class="filter-group">
+        <label class="filter-label" for="filter-year">Year</label>
+        <select id="filter-year" class="filter-select" aria-label="Filter by year">
+          <option value="all">All Years</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label" for="filter-region">Region</label>
+        <select id="filter-region" class="filter-select" aria-label="Filter by region">
+          <option value="all">All Regions</option>
+          <option value="West">West</option>
+          <option value="East">East</option>
+          <option value="South">South</option>
+          <option value="Central">Central</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label" for="filter-category">Category</label>
+        <select id="filter-category" class="filter-select" aria-label="Filter by category">
+          <option value="all">All Categories</option>
+          <option value="Technology">Technology</option>
+          <option value="Furniture">Furniture</option>
+          <option value="Office Supplies">Office Supplies</option>
+        </select>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ══════════════════════════════════════
+       MAIN CONTENT
+  ══════════════════════════════════════ -->
+  <main class="main-content" role="main">
+
+    <!-- Header -->
+    <header class="page-header">
+      <div class="page-title">
+        <h2>Sales Performance Dashboard</h2>
+        <p>Superstore dataset · 2022–2024 · Real-time filtered insights</p>
+      </div>
+      <div class="header-badge" role="status" aria-live="polite">
+        <div class="live-dot" aria-hidden="true"></div>
+        Live Analytics
+      </div>
+    </header>
+
+    <!-- Summary pills -->
+    <div class="summary-band" role="region" aria-label="Dataset summary">
+      <div class="summary-pill" id="pill-records">— Records</div>
+      <div class="summary-pill" id="pill-products">— Products</div>
+      <div class="summary-pill" id="pill-regions">— Regions</div>
+      <div class="summary-pill">
+        📅 <strong>2022–2024</strong>
+      </div>
+      <div class="summary-pill">
+        🏪 Superstore Dataset
+      </div>
+    </div>
+
+    <!-- KPI Cards -->
+    <section class="kpi-grid" aria-label="Key performance indicators">
+
+      <div class="kpi-card blue" id="card-sales">
+        <div class="kpi-header">
+          <span class="kpi-label">Total Sales</span>
+          <div class="kpi-icon">💵</div>
+        </div>
+        <div class="kpi-value" id="kpi-sales">$0</div>
+        <div class="kpi-footer">
+          <span class="kpi-change up" id="kpi-growth-badge">▲ 0%</span>
+          <span class="kpi-change-label">vs previous year</span>
+        </div>
+      </div>
+
+      <div class="kpi-card violet" id="card-profit">
+        <div class="kpi-header">
+          <span class="kpi-label">Total Profit</span>
+          <div class="kpi-icon">📈</div>
+        </div>
+        <div class="kpi-value" id="kpi-profit">$0</div>
+        <div class="kpi-footer">
+          <span class="kpi-change up">▲ Profitable</span>
+          <span class="kpi-change-label">all categories</span>
+        </div>
+      </div>
+
+      <div class="kpi-card green" id="card-orders">
+        <div class="kpi-header">
+          <span class="kpi-label">Total Orders</span>
+          <div class="kpi-icon">🛒</div>
+        </div>
+        <div class="kpi-value" id="kpi-orders">0</div>
+        <div class="kpi-footer">
+          <span class="kpi-change up">▲ Active</span>
+          <span class="kpi-change-label">across all regions</span>
+        </div>
+      </div>
+
+      <div class="kpi-card amber" id="card-margin">
+        <div class="kpi-header">
+          <span class="kpi-label">Profit Margin</span>
+          <div class="kpi-icon">🎯</div>
+        </div>
+        <div class="kpi-value" id="kpi-margin">0%</div>
+        <div class="kpi-footer">
+          <span class="kpi-change up">▲ Healthy</span>
+          <span class="kpi-change-label">industry benchmark</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Row 1: Trend Line + Category Donut -->
+    <div class="charts-row charts-row-2">
+
+      <div class="chart-card" role="region" aria-label="Monthly sales and profit trend">
+        <div class="chart-card-header">
+          <div>
+            <div class="chart-card-title">Monthly Sales &amp; Profit Trend</div>
+            <div class="chart-card-sub">Filtered time series · all months</div>
+          </div>
+          <span class="chart-badge blue">Line Chart</span>
+        </div>
+        <div class="chart-wrapper" style="height:280px">
+          <canvas id="trendChart" aria-label="Line chart showing monthly sales and profit over time"></canvas>
+        </div>
+        <div class="chart-legend" style="margin-top:14px">
+          <div class="legend-item">
+            <div class="legend-dot" style="background:#4facfe"></div> Sales
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background:#34d399"></div> Profit
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-card" role="region" aria-label="Category distribution">
+        <div class="chart-card-header">
+          <div>
+            <div class="chart-card-title">Category Distribution</div>
+            <div class="chart-card-sub">Sales share by category</div>
+          </div>
+          <span class="chart-badge violet">Donut</span>
+        </div>
+        <div class="chart-wrapper" style="height:240px;display:flex;align-items:center;justify-content:center">
+          <canvas id="categoryChart" aria-label="Donut chart showing category distribution"></canvas>
+        </div>
+        <div id="category-legend" class="chart-legend" style="flex-direction:column;gap:10px;margin-top:12px"></div>
+      </div>
+
+    </div>
+
+    <!-- Row 2: Top Products Bar + Quarterly Breakdown -->
+    <div class="charts-row charts-row-2b">
+
+      <div class="chart-card" role="region" aria-label="Top products by sales">
+        <div class="chart-card-header">
+          <div>
+            <div class="chart-card-title">Top 8 Products by Sales</div>
+            <div class="chart-card-sub">Comparing sales vs. profit per product</div>
+          </div>
+          <span class="chart-badge blue">Bar Chart</span>
+        </div>
+        <div class="chart-wrapper" style="height:290px">
+          <canvas id="productsChart" aria-label="Bar chart showing top 8 products by sales"></canvas>
+        </div>
+        <div class="chart-legend" style="margin-top:12px">
+          <div class="legend-item">
+            <div class="legend-dot" style="background:#4facfe"></div> Sales
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background:#34d399"></div> Profit
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-card" role="region" aria-label="Quarterly sales by category">
+        <div class="chart-card-header">
+          <div>
+            <div class="chart-card-title">Quarterly Sales by Category</div>
+            <div class="chart-card-sub">Seasonal performance patterns</div>
+          </div>
+          <span class="chart-badge amber">Grouped Bar</span>
+        </div>
+        <div class="chart-wrapper" style="height:290px">
+          <canvas id="heatmapChart" aria-label="Grouped bar chart showing quarterly sales by category"></canvas>
+        </div>
+        <div class="chart-legend" style="margin-top:12px">
+          <div class="legend-item"><div class="legend-dot" style="background:#4facfe"></div> Technology</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#a78bfa"></div> Furniture</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#34d399"></div> Office Supplies</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Row 3: Region Performance + Products Table -->
+    <div class="charts-row charts-row-2b">
+
+      <div class="chart-card" role="region" aria-label="Regional performance">
+        <div class="chart-card-header">
+          <div>
+            <div class="chart-card-title">Regional Performance</div>
+            <div class="chart-card-sub">Sales, orders &amp; margin by region</div>
+          </div>
+          <span class="chart-badge green">Ranked</span>
+        </div>
+        <div id="region-list" class="region-list" style="margin-top:8px">
+          <!-- populated by JS -->
+        </div>
+      </div>
+
+      <div class="chart-card" role="region" aria-label="Top 10 products table">
+        <div class="chart-card-header">
+          <div>
+            <div class="chart-card-title">Top 10 Products Breakdown</div>
+            <div class="chart-card-sub">Ranked by revenue · with profit bars</div>
+          </div>
+          <span class="chart-badge amber">Table</span>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="data-table" aria-label="Top 10 products by sales">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Sales</th>
+                <th>Profit</th>
+                <th>Margin</th>
+                <th>Profit Bar</th>
+              </tr>
+            </thead>
+            <tbody id="products-tbody">
+              <!-- populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="dashboard-footer">
+      <div class="footer-brand">
+        📊 <span>SalesIQ Dashboard</span>
+        <span style="color:var(--text-muted)">·</span>
+        <span>Superstore Dataset Analysis</span>
+      </div>
+      <div>
+        Built with Chart.js · Vanilla HTML/CSS/JS · Data: 2022–2024
+      </div>
+    </footer>
+
+  </main>
+
+</div>
+
+<!-- Scripts (order matters: data → dashboard) -->
+<script src="data.js"></script>
+<script src="dashboard.js"></script>
+
+</body>
+</html>
