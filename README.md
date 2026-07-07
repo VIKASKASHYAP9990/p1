@@ -54,7 +54,8 @@ No external build tools or libraries are required to run the frontend. You can o
     # Run the server on port 8001 (or another port if 8000 is already in use by another project):
     python -m http.server 8001
     ```
-    Then open [http://localhost:8001](http://localhost:8001) in your web browser.
+    *   **To access on this computer**: Open [http://localhost:8001](http://localhost:8001) in your browser.
+    *   **To access on mobile or other devices**: Make sure your device is connected to the same Wi-Fi/local network as your computer, then open `http://<your-computer-ip>:8001` (e.g., `http://192.168.1.4:8001`) in the device's web browser.
 
 ### Python Data Analysis
 To run the analytical script and generate plots:
