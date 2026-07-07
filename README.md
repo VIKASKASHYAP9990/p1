@@ -59,7 +59,6 @@ No external build tools or libraries are required to run the frontend. You can o
     python -m http.server 8001
     ```
     *   **To access on this computer**: Open [http://localhost:8001](http://localhost:8001) in your browser.
-    *   **Note on Mobile Access**: Accessing via local IP (e.g., `http://192.168.1.4:8001`) can sometimes fail if your computer's firewall blocks incoming connections or your Wi-Fi router has access point isolation enabled. If this occurs, use the online GitHub Pages link above.
 
 ### Python Data Analysis
 To run the analytical script and generate plots:
