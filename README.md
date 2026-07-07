@@ -46,16 +46,20 @@ The project is structured as follows:
 ## 🚀 How to Run
 
 ### Web Dashboard
-No external build tools or libraries are required to run the frontend. You can open it in two ways:
+No external build tools or libraries are required to run the frontend. You can open it in three ways:
 
-1.  **Directly in Browser**: Double-click `index.html` or open it with any web browser.
-2.  **Using a Local HTTP Server** (Recommended for stability):
+1.  **Online (Recommended for Mobile/Other Devices)**:
+    Access the live deployed site directly on any device:
+    👉 **[https://vikaskashyap9990.github.io/p1/](https://vikaskashyap9990.github.io/p1/)**
+
+2.  **Directly in Browser**: Double-click `index.html` or open it with any web browser.
+3.  **Using a Local HTTP Server** (For local development):
     ```bash
     # Run the server on port 8001 (or another port if 8000 is already in use by another project):
     python -m http.server 8001
     ```
     *   **To access on this computer**: Open [http://localhost:8001](http://localhost:8001) in your browser.
-    *   **To access on mobile or other devices**: Make sure your device is connected to the same Wi-Fi/local network as your computer, then open `http://<your-computer-ip>:8001` (e.g., `http://192.168.1.4:8001`) in the device's web browser.
+    *   **Note on Mobile Access**: Accessing via local IP (e.g., `http://192.168.1.4:8001`) can sometimes fail if your computer's firewall blocks incoming connections or your Wi-Fi router has access point isolation enabled. If this occurs, use the online GitHub Pages link above.
 
 ### Python Data Analysis
 To run the analytical script and generate plots:
