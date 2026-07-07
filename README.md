@@ -51,10 +51,10 @@ No external build tools or libraries are required to run the frontend. You can o
 1.  **Directly in Browser**: Double-click `index.html` or open it with any web browser.
 2.  **Using a Local HTTP Server** (Recommended for stability):
     ```bash
-    # If Python is installed:
-    python -m http.server 8000
+    # Run the server on port 8001 (or another port if 8000 is already in use by another project):
+    python -m http.server 8001
     ```
-    Then open [http://localhost:8000](http://localhost:8000) in your web browser.
+    Then open [http://localhost:8001](http://localhost:8001) in your web browser.
 
 ### Python Data Analysis
 To run the analytical script and generate plots:
